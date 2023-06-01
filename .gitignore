@@ -1,0 +1,11 @@
+/*
+
+!.gitattributes
+!.gitignore
+!.LICENSE
+!.README.md
+
+!start.bat
+
+!/server_plus
+!*.py
