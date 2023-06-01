@@ -1,3 +1,7 @@
+import sys
+import asyncio
+
+
 # コンソールに出力
 def print_output(process):
     while True:
@@ -14,10 +18,10 @@ def print_output(process):
 
 
 # コンソールから読み取り
-def read_input(process):
+async def read_input(process):
     while True:
-        user_input = input()
-        write_text(process, user_input + "\n")
+        text = await asyncio.create_task(asyncio.to_thread(sys.stdin.readline))
+        write_text(process, text)
 
 
 # 文字 (引数 text) を書き込み
