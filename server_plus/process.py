@@ -1,9 +1,14 @@
 
+import os
 import subprocess
 from subprocess import PIPE
 
-# その他色んな関数 インポート
+# 色んな関数 インポート
 import server_plus.util as util
+
+# バックアップ関係
+import server_plus.backup as backup
+
 
 # config.json 読み込み
 config = util.readJSON("server_plus/config.json")
@@ -20,10 +25,13 @@ def ServerStart():
 # 統合版サーバー プロセス起動
 process = ServerStart()
 
+status = {"isReboot": False}
 
 # メインの処理
+
+
 def main():
-    global process
+    global process, status
     while True:
         if process.poll() is None:
             # 出力された文字読み込み
@@ -31,7 +39,15 @@ def main():
             # コンソール出力
             print(output.strip().decode())
         else:
-            process = ServerStart()
+            if (config["isBackup"]):
+                backup.world(config)
+
+            if (status["isReboot"]):
+                status["isReboot"] = False
+                # 統合版サーバー プロセス起動
+                process = ServerStart()
+            else:
+                os._exit(1)
 
 
 # コンソールから読み取り

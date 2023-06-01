@@ -1,7 +1,7 @@
 import threading
 
 # プロセス関係 読み込み (統合版サーバーとの接続)
-from server_plus.process import main,  read_input, write_text
+from server_plus.process import status, main,  read_input, write_text
 
 
 def run():
@@ -13,3 +13,8 @@ def run():
     # コンソールからコマンドの実行をできるようにする
     input = threading.Thread(target=read_input, args=())
     input.start()
+
+
+def reboot():
+    status["isReboot"] = False
+    write_text("stop")

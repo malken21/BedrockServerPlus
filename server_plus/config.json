@@ -1,3 +1,6 @@
 {
-    "startCMD": "bedrock_server.exe"
+    "startCMD": "bedrock_server.exe",
+    "isBackup": true,
+    "WorldPath": "./worlds/Bedrock level",
+    "WorldArchiveName": "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
 }
