@@ -1,3 +1,4 @@
+import asyncio
 import threading
 import subprocess
 from subprocess import PIPE
@@ -15,14 +16,7 @@ config = util.readJSON("server_plus/config.json")
 startCMD = config["startCMD"]
 
 
-
-
-# コンソールからコマンドの実行をできるようにする
-input = threading.Thread(target=read_input, args=(process,))
-input.start()
-
-
-def ServerStart(process):
+def ServerStart():
     # サブプロセス (統合版サーバー) 作成
     process = subprocess.Popen(startCMD, stdin=PIPE, stdout=PIPE, shell=True)
 
@@ -30,10 +24,14 @@ def ServerStart(process):
     output = threading.Thread(target=print_output, args=(process,))
     output.start()
 
+    # コンソールからコマンドの実行をできるようにする
+    input = threading.Thread(target=read_input, args=(process,))
+    input.start()
+
     # "統合版サーバーのコンソール"の出力が止まるまで (サーバーが停止するまで)
     # ここで一時停止する
     output.join()
-    # 
+    #
 
 
 ServerStart()

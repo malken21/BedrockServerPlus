@@ -7,5 +7,5 @@
 
 !start.bat
 
-!/server_plus
+!/server_plus/*.py
 !*.py
