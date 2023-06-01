@@ -16,6 +16,22 @@ def run():
     input = threading.Thread(target=read_input, args=())
     input.start()
 
+    # 自動再起動の設定
+    if (config["Reboot"]):
+        RebootTime = config["RebootTime"]
+        print("RebootTime: " + RebootTime)
+        schedule.every().day.at(RebootTime).do(reboot)
+
+    # 自動コマンド実行の設定
+    if (config["CommandTimer"]):
+        CommandTimerList = config["CommandTimerList"]
+
+        for item in CommandTimerList:
+            schedule.every().day.at(item["time"]).do(
+                write_text,
+                text=item["command"] + "\n"
+            )
+
     # 常時実行
     asyncio.run(loop())
 
@@ -24,10 +40,10 @@ def run():
 async def loop():
     while True:
         schedule.run_pending()
-        reboot()
+        await asyncio.sleep(1)
 
 
 # 再起動
 def reboot():
     status["isReboot"] = True
-    write_text("stop" + "\n")
+    write_text("stop\n")

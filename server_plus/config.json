@@ -2,5 +2,22 @@
     "startCMD": "bedrock_server.exe",
     "isBackup": true,
     "WorldPath": "./worlds/Bedrock level",
-    "WorldArchiveName": "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
+    "WorldArchiveName": "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld",
+    "Reboot": true,
+    "RebootTime": "05:01",
+    "CommandTimer": true,
+    "CommandTimerList": [
+        {
+            "time": "05:00",
+            "command": "say §g5時になりました"
+        },
+        {
+            "time": "05:01",
+            "command": "difficulty easy"
+        },
+        {
+            "time": "05:01",
+            "command": "say §b難易度がイージーに変更されました"
+        }
+    ]
 }
