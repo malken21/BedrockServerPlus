@@ -7,5 +7,9 @@
 
 !start.bat
 
-!/server_plus/*.py
+!/server_plus
+
+__pycache__
+/server_plus/__pycache__
+
 !*.py
