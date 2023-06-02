@@ -1,17 +1,31 @@
+# 統合版サーバーを起動させるコマンド
 startCMD: "bedrock_server.exe"
 
-isBackup: true
-WorldPath": "./worlds/Bedrock level"
-WorldArchiveName": "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
+#サーバー停止時、再起動時に ワールドをバックアップするかどうか
+isBackup: false
+#ワールドのパス
+WorldPath: "./worlds/Bedrock level"
+#ワールドのパス
+WorldArchiveName: "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
 
-Reboot": true
-RebootTime": "06:00"
+#自動で再起動するかどうか
+Reboot: true
+#自動で再起動する時間
+RebootTime: "06:00"
 
-CommandTimer": true
-CommandTimerList":
-  - time: "05:00"
-    command: "say §g5時になりました"
-  - time: "18:24"
+#指定した時間になったら設定したアクションを実行する機能を有効にするかどうか
+ActionTimer: true
+#時間とコマンドの設定
+ActionTimerList:
+  # time に 時間を記入
+  # command に 実行したいコマンドを記入
+  # say に チャットに表示したい文字
+
+  - time: "20:00"
     command: "difficulty easy"
-  - time: "18:24"
-    command:  'tellraw @a {"rawtext":[{"text":"\u96e3\u6613\u5ea6\u304c§a\u30a4\u30fc\u30b8\u30fc§r\u306b\u5909\u66f4\u3055\u308c\u307e\u3057\u305f"}]}'
+
+  - time: "20:46"
+    command: "difficulty hard"
+
+  - time: "20:46"
+    say: "§r難易度が§cハード§rに変更されました"

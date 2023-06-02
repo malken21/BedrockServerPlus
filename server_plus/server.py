@@ -5,6 +5,8 @@ import schedule
 # プロセス関係 読み込み (統合版サーバーとの接続)
 from server_plus.process import status, config, main,  read_input, write_text
 
+import server_plus.util as util
+
 
 def run():
 
@@ -22,14 +24,15 @@ def run():
         print("RebootTime: " + RebootTime)
         schedule.every().day.at(RebootTime).do(reboot)
 
-    # 自動コマンド実行の設定
-    if (config["CommandTimer"]):
-        CommandTimerList = config["CommandTimerList"]
+    # 自動コマンド実行の登録
+    if (config["ActionTimer"]):
+        CommandTimerList = config["ActionTimerList"]
 
         for item in CommandTimerList:
-            schedule.every().day.at(item["time"]).do(
+            time = item["time"]
+            schedule.every().day.at(time).do(
                 write_text,
-                text=item["command"] + "\n"
+                text=util.toCommand(item) + "\n"
             )
 
     # 常時実行
