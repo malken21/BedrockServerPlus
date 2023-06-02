@@ -5,7 +5,7 @@ startCMD: "bedrock_server.exe"
 isBackup: true
 #ワールドのパス
 WorldPath: "./worlds/Bedrock level"
-#ワールドのパス
+#ワールドのバックアップファイルの形式
 WorldArchiveName: "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
 
 #自動で再起動するかどうか
