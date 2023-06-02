@@ -2,7 +2,7 @@
 startCMD: "bedrock_server.exe"
 
 #サーバー停止時、再起動時に ワールドをバックアップするかどうか
-isBackup: false
+isBackup: true
 #ワールドのパス
 WorldPath: "./worlds/Bedrock level"
 #ワールドのパス
