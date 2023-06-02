@@ -19,7 +19,7 @@ startCMD = config["startCMD"]
 
 # サブプロセス (統合版サーバー) 作成
 def ServerStart():
-    return subprocess.Popen(startCMD, stdin=PIPE, stdout=PIPE, shell=True, encoding="utf-8")
+    return subprocess.Popen(startCMD, stdin=PIPE, stdout=PIPE, shell=True, encoding="utf-8", universal_newlines=True)
 
 
 # 統合版サーバー プロセス起動
@@ -27,9 +27,8 @@ process = ServerStart()
 
 status = {"isReboot": False}
 
+
 # メインの処理
-
-
 def main():
     global process, status
     while True:
