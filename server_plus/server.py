@@ -26,14 +26,16 @@ def run():
 
     # 自動コマンド実行の登録
     if (config["ActionTimer"]):
-        CommandTimerList = config["ActionTimerList"]
+        ActionTimerList = config["ActionTimerList"]
 
-        for item in CommandTimerList:
-            time = item["time"]
-            schedule.every().day.at(time).do(
+        for item in ActionTimerList:
+            Time = item["time"]
+            Command = util.toCommand(item)
+            schedule.every().day.at(Time).do(
                 write_text,
-                text=util.toCommand(item) + "\n"
+                text=Command + "\n"
             )
+            print(item)
 
     # 常時実行
     asyncio.run(loop())
