@@ -21,11 +21,12 @@ ActionTimerList:
   # command に 実行したいコマンドを記入
   # say に チャットに表示したい文字
 
-  - time: "20:00"
+  - time: "05:00"
     command: "difficulty easy"
+  - time: "05:00"
+    say: "§r難易度が§aイージー§rに変更されました"
 
-  - time: "20:46"
+  - time: "20:00"
     command: "difficulty hard"
-
-  - time: "20:46"
+  - time: "20:00"
     say: "§r難易度が§cハード§rに変更されました"
