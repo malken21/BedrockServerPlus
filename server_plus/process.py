@@ -19,7 +19,7 @@ startCMD = config["startCMD"]
 
 # サブプロセス (統合版サーバー) 作成
 def ServerStart():
-    return subprocess.Popen(startCMD, stdin=PIPE, stdout=PIPE, shell=True)
+    return subprocess.Popen(startCMD, stdin=PIPE, stdout=PIPE, shell=True, encoding="utf-8")
 
 
 # 統合版サーバー プロセス起動
@@ -37,7 +37,7 @@ def main():
             # 出力された文字読み込み
             output = process.stdout.readline()
             # コンソール出力
-            print(output.strip().decode())
+            print(output.strip())
         else:
             if (config["isBackup"]):
                 backup.world(config)
@@ -62,5 +62,5 @@ def read_input():
 # 文字 (引数 text) を書き込み
 def write_text(text: str):
     global process
-    process.stdin.write(text.encode())
+    process.stdin.write(text)
     process.stdin.flush()

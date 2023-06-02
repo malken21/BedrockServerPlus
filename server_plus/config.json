@@ -4,7 +4,7 @@
     "WorldPath": "./worlds/Bedrock level",
     "WorldArchiveName": "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld",
     "Reboot": true,
-    "RebootTime": "05:01",
+    "RebootTime": "06:00",
     "CommandTimer": true,
     "CommandTimerList": [
         {
@@ -12,11 +12,11 @@
             "command": "say §g5時になりました"
         },
         {
-            "time": "05:01",
+            "time": "05:03",
             "command": "difficulty easy"
         },
         {
-            "time": "05:01",
+            "time": "05:03",
             "command": "say §b難易度がイージーに変更されました"
         }
     ]
