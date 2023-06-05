@@ -78,7 +78,7 @@ def world(config):
         zipdir(path, zipf)
 
     # ウェブフック送信
-    util.sendWebhook({"type": "CreateBackup", "path": ZipFilePath}, config)
+    util.sendWebhookAwait({"type": "CreateBackup", "path": ZipFilePath}, config)
 
     # 変数"saveData"を保存
     util.saveJSON(saveDataPath, saveData, cls=JSONEncoder_Datetime)

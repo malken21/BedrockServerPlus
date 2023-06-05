@@ -27,3 +27,9 @@ def getLog(log, config):
         util.sendWebhook(
             {"type": "PlayerDisconnect", "username": util.getPlayerName(text)}, config
         )
+    # サーバー 起動ログだったら
+    elif text == "Server started.":
+        util.sendWebhook({"type": "ServerStart"}, config)
+    # サーバー 停止ログだったら
+    elif text == "Stopping server...":
+        util.sendWebhook({"type": "ServerStop"}, config)

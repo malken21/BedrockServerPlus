@@ -18,7 +18,6 @@ startCMD = config["startCMD"]
 
 # サブプロセス (統合版サーバー) 作成
 def ServerStart():
-    util.sendWebhook({"type": "ServerStart"}, config)
     return subprocess.Popen(
         startCMD,
         stdin=PIPE,
@@ -48,7 +47,6 @@ def main():
             log.getLog(output, config)
 
         elif poll == 0:
-            util.sendWebhook({"type": "ServerStop"}, config)
             if config["Backup"]:
                 # バックアップ
                 backup.world(config)
