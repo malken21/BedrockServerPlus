@@ -43,5 +43,5 @@ config.yml で指定した URL に Post でリクエストを送信する
 ### ワールドバックアップ削除時
 
 ```post
-{"type": "CreateBackup", "path": "バックアップファイルの絶対パス"}
+{"type": "RemoveBackup", "path": "バックアップファイルの絶対パス"}
 ```
