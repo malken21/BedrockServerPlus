@@ -3,13 +3,12 @@ import asyncio
 import schedule
 
 # プロセス関係 読み込み (統合版サーバーとの接続)
-from server_plus.process import status, config, main,  read_input, write_text
+from server_plus.process import status, config, main, read_input, write_text
 
 import server_plus.util as util
 
 
 def run():
-
     # 統合版サーバー メインの処理 起動
     output = Thread(target=main, args=())
     output.start()
@@ -31,10 +30,7 @@ def run():
         for item in ActionTimerList:
             Time = item["time"]
             Command = util.toCommand(item)
-            schedule.every().day.at(Time).do(
-                write_text,
-                text=Command + "\n"
-            )
+            schedule.every().day.at(Time).do(write_text, text=Command + "\n")
             print(item)
 
     # 常時実行

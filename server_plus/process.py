@@ -19,7 +19,14 @@ startCMD = config["startCMD"]
 # サブプロセス (統合版サーバー) 作成
 def ServerStart():
     util.sendWebhook({"type": "ServerStart"}, config)
-    return subprocess.Popen(startCMD, stdin=PIPE, stdout=PIPE, shell=True, encoding="utf-8", universal_newlines=True)
+    return subprocess.Popen(
+        startCMD,
+        stdin=PIPE,
+        stdout=PIPE,
+        shell=True,
+        encoding="utf-8",
+        universal_newlines=True,
+    )
 
 
 # 統合版サーバー プロセス起動

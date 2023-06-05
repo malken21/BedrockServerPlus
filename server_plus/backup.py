@@ -1,4 +1,3 @@
-
 import os
 import zipfile
 import datetime
@@ -16,7 +15,7 @@ saveDataPath = "./server_plus/save/backup.json"
 
 class JSONEncoder_Datetime(JSONEncoder):  # JSONEncoderを継承させる
     def default(self, o):
-        if type(o).__name__ == "datetime":     # 値がdatetime型だったら、
+        if type(o).__name__ == "datetime":  # 値がdatetime型だったら、
             return o.strftime("%Y%m%d-%H%M%S")  # 文字列に変換して返す
         else:
             return o
@@ -28,7 +27,7 @@ def zipdir(path, ziph):
         for file in files:
             ziph.write(
                 os.path.join(root, file),
-                os.path.relpath(os.path.join(root, file), path)
+                os.path.relpath(os.path.join(root, file), path),
             )
 
 
@@ -46,10 +45,7 @@ def removeBackup(saveData: list, config):
         print("RemoveFile: " + path)
 
         # ウェブフック送信
-        util.sendWebhook({
-            "type": "RemoveBackup",
-            "path": path
-        }, config)
+        util.sendWebhook({"type": "RemoveBackup", "path": path}, config)
 
     # 削除されたバックアップファイルについてのデータを消す
     del saveData[MaxBackupFile:]
@@ -59,7 +55,6 @@ def removeBackup(saveData: list, config):
 
 # ファイルバックアップ (zip)
 def world(config):
-
     saveData = []
     # ./server_plus/save/backup.json (保存データ) が存在するかどうか
     if os.path.isfile(saveDataPath):
@@ -74,27 +69,16 @@ def world(config):
     # 作成するアーカイブファイルのパス
     ZipFilePath = now.strftime(config["WorldArchiveFile"])
 
-    saveData.insert(0, {
-        "path": ZipFilePath,
-        "time": now
-    })
+    saveData.insert(0, {"path": ZipFilePath, "time": now})
 
     saveData = removeBackup(saveData, config)
 
     # アーカイブファイル作成
-    with zipfile.ZipFile(ZipFilePath, 'w', zipfile.ZIP_DEFLATED) as zipf:
+    with zipfile.ZipFile(ZipFilePath, "w", zipfile.ZIP_DEFLATED) as zipf:
         zipdir(path, zipf)
 
     # ウェブフック送信
-    util.sendWebhook({
-        "type": "CreateBackup",
-        "path": ZipFilePath
-    }, config)
-    # ウェブフック送信
-    util.sendWebhook({
-        "type": "CreateBackup",
-        "path": ZipFilePath
-    }, config)
+    util.sendWebhook({"type": "CreateBackup", "path": ZipFilePath}, config)
 
     # 変数"saveData"を保存
     util.saveJSON(saveDataPath, saveData, cls=JSONEncoder_Datetime)
