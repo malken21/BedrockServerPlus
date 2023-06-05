@@ -1,4 +1,4 @@
-import threading
+from threading import Thread
 import asyncio
 import schedule
 
@@ -11,11 +11,11 @@ import server_plus.util as util
 def run():
 
     # 統合版サーバー メインの処理 起動
-    output = threading.Thread(target=main, args=())
+    output = Thread(target=main, args=())
     output.start()
 
     # コンソールからコマンドの実行をできるようにする
-    input = threading.Thread(target=read_input, args=())
+    input = Thread(target=read_input, args=())
     input.start()
 
     # 自動再起動の設定

@@ -1,6 +1,6 @@
 import urllib.parse
 import urllib.request
-import threading
+from threading import Thread
 import os
 import json
 import yaml
@@ -81,5 +81,5 @@ def sendWebhook(data, config):
     if config["Webhook"] == False:
         return
 
-    # スレッドを作成して Postリクエストを送信
-    threading.Thread(target=postJSON, args=(config["WebhookURL"], data))
+    # スレッドを作成、開始 Postリクエストを送信
+    Thread(target=postJSON, args=(config["WebhookURL"], data)).start()
