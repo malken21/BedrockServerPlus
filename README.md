@@ -25,11 +25,11 @@ config.yml で指定した URL に Post でリクエストを送信する
 ### プレイヤー参加時
 
 ```post
-
+{"type": "PlayerJoin"}
 ```
 
 ### プレイヤー退出時
 
 ```post
-
+{"type": "PlayerQuit"}
 ```

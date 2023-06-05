@@ -1,3 +1,4 @@
+import re
 import urllib.parse
 import urllib.request
 from threading import Thread
@@ -83,3 +84,19 @@ def sendWebhook(data, config):
 
     # スレッドを作成、開始 Postリクエストを送信
     Thread(target=postJSON, args=(config["WebhookURL"], data)).start()
+
+
+# ログの本文からプレイヤー名の部分を取得する
+def getPlayerName(text: str):
+    start = text.find(":") + 2
+    end = text.find(",", start)
+    username = text[start:end]
+    return username
+
+
+# ログから 本文を取得する 所得出来ない場合は None を返す
+def getMainText(log: str):
+    match = re.search(r'\[.*]\s(.*)', log)
+    if match:
+        return match.group(1)
+    return None

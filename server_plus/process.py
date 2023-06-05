@@ -7,6 +7,7 @@ import server_plus.util as util
 # バックアップ関係
 import server_plus.backup as backup
 
+import server_plus.log as log
 
 # config.json 読み込み
 config = util.readYAML("server_plus/config.yml")
@@ -33,10 +34,13 @@ def main():
     while True:
         if process.poll() is None:
             # 出力された文字読み込み
-            output = process.stdout.readline()
-            # コンソール出力
-            print(output.strip())
+            output = process.stdout.readline().strip()
+
+            # ログを取得した時の処理
+            log.getLog(output, config)
+
         else:
+            util.sendWebhook({"type": "ServerStop"}, config)
             if config["isBackup"]:
                 # バックアップ
                 backup.world(config)
