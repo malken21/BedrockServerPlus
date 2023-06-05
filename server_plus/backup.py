@@ -50,11 +50,14 @@ def world(config):
     with zipfile.ZipFile(ZipFilePath, 'w', zipfile.ZIP_DEFLATED) as zipf:
         zipdir(path, zipf)
 
-    # ウェブフック送信
-    util.sendWebhook({"type": "CreateBackup", "path": ZipFilePath}, config)
-
     # 変数"saveData"を保存
     util.saveJSON(saveDataPath, saveData, cls=JSONEncoder_Datetime)
+
+    # ウェブフック送信
+    util.sendWebhookAwait({
+        "type": "CreateBackup",
+        "path": ZipFilePath
+    }, config)
 
 
 def zipdir(path, ziph):
@@ -79,6 +82,12 @@ def removeBackup(saveData: list, config):
         path = saveData[i + MaxBackupFile]["path"]
         os.remove(path)
         print("RemoveFile: " + path)
+
+        # ウェブフック送信
+        util.sendWebhookAwait({
+            "type": "RemoveBackup",
+            "path": path
+        }, config)
 
     # 削除されたバックアップファイルについてのデータを消す
     del saveData[MaxBackupFile:]

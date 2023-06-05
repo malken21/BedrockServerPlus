@@ -86,6 +86,17 @@ def sendWebhook(data, config):
     Thread(target=postJSON, args=(config["WebhookURL"], data)).start()
 
 
+# スレッドを作成せずに Webhook 送信
+def sendWebhookAwait(data, config):
+
+    # config で Webhookの機能が 無効だったら return
+    if config["Webhook"] == False:
+        return
+
+    # Postリクエストを送信
+    postJSON(config["WebhookURL"], data)
+
+
 # ログの本文からプレイヤー名の部分を取得する
 def getPlayerName(text: str):
     start = text.find(":") + 2
