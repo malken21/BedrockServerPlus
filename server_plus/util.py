@@ -75,11 +75,11 @@ def is_str(v):
 
 
 # Webhook 送信
-def sendWebhook(url: str, data, config):
+def sendWebhook(data, config):
 
     # config で Webhookの機能が 無効だったら return
     if config["Webhook"] == False:
         return
 
     # スレッドを作成して Postリクエストを送信
-    threading.Thread(target=postJSON, args=(url, data))
+    threading.Thread(target=postJSON, args=(config["WebhookURL"], data))
