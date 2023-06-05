@@ -1,3 +1,5 @@
+import urllib.parse
+import urllib.request
 import os
 import json
 import yaml
@@ -50,6 +52,22 @@ def toCommand(ActionTimer):
 def exit():
     os._exit(1)
 
+
 # 型か文字列かどうか
 def is_str(v):
     return type(v) is str
+
+
+# Postリクエスト 送信
+def post(url: str, data):
+    headers = {'Content-Type': 'application/json'}
+    data = json.dumps(data)
+    data = data.encode('utf-8')
+
+    try:
+        req = urllib.request.Request(url, data, headers)
+        with urllib.request.urlopen(req) as response:
+            response_text = response.read().decode('utf-8')
+            return response_text
+    except urllib.error.URLError:
+        return None
