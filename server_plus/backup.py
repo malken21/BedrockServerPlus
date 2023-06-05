@@ -2,7 +2,6 @@
 import os
 import zipfile
 import datetime
-import time
 
 
 # 色んな関数 インポート
@@ -11,7 +10,7 @@ import server_plus.util as util
 
 from json import JSONEncoder
 
-# 保存データのパス
+# 保存データのパス "save/backup.json" で 古すぎるファイルの削除を管理している
 saveDataPath = "./server_plus/save/backup.json"
 
 
@@ -41,12 +40,12 @@ def world(config):
     # 作成するアーカイブファイルのパス
     zipFile_Name = now.strftime(config["WorldArchiveFile"])
 
-    saveData.append({
+    saveData.insert(0, {
         "path": zipFile_Name,
         "time": now
     })
 
-    saveData = normalization(saveData)
+    saveData = removeBackup(saveData, config)
 
     # アーカイブファイル作成
     with zipfile.ZipFile(zipFile_Name, 'w', zipfile.ZIP_DEFLATED) as zipf:
@@ -66,13 +65,20 @@ def zipdir(path, ziph):
             )
 
 
-# "saveData" にある "time" にある文字列を"datetime"に変換し
-# 変換し終わったものを return する
-def normalization(saveData):
-    for i in range(len(saveData)):
-        time = saveData[i]["time"]
-        # もし型が 文字列 の場合は "datetime"に変換する
-        if (util.is_str(time)):
-            time = datetime.datetime.strptime(time, "%Y%m%d-%H%M%S")
-            saveData[i]["time"] = time
+# 古いバックアップを削除
+def removeBackup(saveData: list, config):
+    MaxBackupFile = config["MaxBackupFile"]
+
+    # もし "MaxBackupFile" が 0 に設定されていた場合は return
+    if MaxBackupFile == 0:
+        return
+
+    for i in range(len(saveData[MaxBackupFile:])):
+        path = saveData[i + MaxBackupFile]["path"]
+        os.remove(path)
+        print("RemoveFile: " + path)
+
+    # 削除されたバックアップファイルについてのデータを消す
+    del saveData[MaxBackupFile:]
+
     return saveData

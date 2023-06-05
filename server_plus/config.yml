@@ -7,6 +7,9 @@ isBackup: true
 WorldPath: "./worlds/Bedrock level"
 #ワールドのバックアップファイルの形式
 WorldArchiveFile: "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
+#バックアップした時、バックアップファイルの数が数値以上になったら古いものから削除
+# 0 に設定した場合は 削除しない
+MaxBackupFile: 5
 
 #自動で再起動するかどうか
 Reboot: true
