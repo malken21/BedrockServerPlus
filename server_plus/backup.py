@@ -46,7 +46,9 @@ def removeBackup(saveData: list, config):
         print("RemoveFile: " + path)
 
         # ウェブフック送信
-        util.sendWebhook({"type": "RemoveBackup", "path": path}, config)
+        util.sendWebhook(
+            {"type": "RemoveBackup", "path": os.path.abspath(path)}, config
+        )
 
     # 削除されたバックアップファイルについてのデータを消す
     del saveData[MaxBackupFile:]
@@ -81,7 +83,9 @@ def world(config):
     print("CreateFile: " + ZipFilePath)
 
     # ウェブフック送信
-    util.sendWebhookAwait({"type": "CreateBackup", "path": ZipFilePath}, config)
+    util.sendWebhookAwait(
+        {"type": "CreateBackup", "path": os.path.abspath(ZipFilePath)}, config
+    )
 
     # 変数"saveData"を保存
     util.saveJSON(saveDataPath, saveData, cls=JSONEncoder_Datetime)

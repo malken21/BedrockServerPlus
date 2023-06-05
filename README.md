@@ -33,3 +33,15 @@ config.yml で指定した URL に Post でリクエストを送信する
 ```post
 {"type": "PlayerDisconnect", "username": "ユーザー名"}
 ```
+
+### ワールドバックアップ作成時
+
+```post
+{"type": "CreateBackup", "path": "バックアップファイルの絶対パス"}
+```
+
+### ワールドバックアップ削除時
+
+```post
+{"type": "CreateBackup", "path": "バックアップファイルの絶対パス"}
+```
