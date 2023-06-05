@@ -4,8 +4,8 @@ import server_plus.util as util
 
 # 統合版サーバーのログを取得した時に実行される
 def getLog(log, config):
-
-    # コンソール出力
+    
+    # コンソール出力    
     print(log)
 
     # ログから本文を取得
