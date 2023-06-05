@@ -19,13 +19,13 @@ def run():
     input.start()
 
     # 自動再起動の設定
-    if (config["Reboot"]):
+    if config["Reboot"]:
         RebootTime = config["RebootTime"]
         print("RebootTime: " + RebootTime)
         schedule.every().day.at(RebootTime).do(reboot)
 
     # 自動コマンド実行の登録
-    if (config["ActionTimer"]):
+    if config["ActionTimer"]:
         ActionTimerList = config["ActionTimerList"]
 
         for item in ActionTimerList:

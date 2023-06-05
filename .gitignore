@@ -12,5 +12,6 @@
 
 __pycache__
 /server_plus/__pycache__
+/server_plus/save
 
 !*.py

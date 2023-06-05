@@ -6,12 +6,17 @@ isBackup: true
 #ワールドのパス
 WorldPath: "./worlds/Bedrock level"
 #ワールドのバックアップファイルの形式
-WorldArchiveName: "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
+WorldArchiveFile: "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
 
 #自動で再起動するかどうか
 Reboot: true
 #自動で再起動する時間
 RebootTime: "05:00"
+
+#Webhookの機能を有効にするかどうか
+Webhook: false
+#WebhookのURL
+WebhookURL: ""
 
 #指定した時間になったら設定したアクションを実行する機能を有効にするかどうか
 ActionTimer: true

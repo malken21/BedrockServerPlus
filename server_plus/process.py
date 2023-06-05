@@ -24,7 +24,7 @@ def ServerStart():
 
 # 統合版サーバー プロセス起動
 process = ServerStart()
-
+# 現在の状態を管理
 status = {"isReboot": False}
 
 
@@ -38,15 +38,17 @@ def main():
             # コンソール出力
             print(output.strip())
         else:
-            if (config["isBackup"]):
+            if config["isBackup"]:
+                # バックアップ
                 backup.world(config)
 
-            if (status["isReboot"]):
+            if status["isReboot"]:
+                # 再起動
                 status["isReboot"] = False
                 # 統合版サーバー プロセス起動
                 process = ServerStart()
             else:
-                os._exit(1)
+                util.exit()
 
 
 # コンソールから読み取り
@@ -54,7 +56,7 @@ def read_input():
     global process
     while True:
         user_input = input()
-        if (process.poll() is None):
+        if process.poll() is None:
             write_text(user_input + "\n")
 
 
