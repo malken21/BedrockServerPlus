@@ -32,14 +32,15 @@ status = {"isReboot": False}
 def main():
     global process, status
     while True:
-        if process.poll() is None:
+        poll = process.poll()
+        if poll is None:
             # 出力された文字読み込み
             output = process.stdout.readline().strip()
 
             # ログを取得した時の処理
             log.getLog(output, config)
 
-        else:
+        elif poll == 0:
             util.sendWebhook({"type": "ServerStop"}, config)
             if config["Backup"]:
                 # バックアップ
@@ -52,6 +53,8 @@ def main():
                 process = ServerStart()
             else:
                 util.exit()
+        else:
+            util.exit()
 
 
 # コンソールから読み取り

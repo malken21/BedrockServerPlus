@@ -77,13 +77,14 @@ def is_str(v):
 
 # Webhook 送信
 def sendWebhook(data, config):
-
+    print(data)
     # config で Webhookの機能が 無効だったら return
     if config["Webhook"] == False:
         return
 
     # スレッドを作成、開始 Postリクエストを送信
-    Thread(target=postJSON, args=(config["WebhookURL"], data)).start()
+    thread = Thread(target=postJSON, args=(config["WebhookURL"], data))
+    thread.start()
 
 
 # スレッドを作成せずに Webhook 送信
