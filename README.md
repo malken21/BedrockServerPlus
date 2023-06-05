@@ -22,14 +22,14 @@ config.yml で指定した URL に Post でリクエストを送信する
 {"type": "ServerStop"}
 ```
 
-### プレイヤー参加時
+### プレイヤー接続時
 
 ```post
-{"type": "PlayerJoin"}
+{"type": "PlayerConnect", "username": "ユーザー名"}
 ```
 
-### プレイヤー退出時
+### プレイヤー切断時
 
 ```post
-{"type": "PlayerQuit"}
+{"type": "PlayerDisconnect", "username": "ユーザー名"}
 ```
