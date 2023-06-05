@@ -15,7 +15,6 @@ saveDataPath = "./server_plus/save/backup.json"
 
 
 class JSONEncoder_Datetime(JSONEncoder):  # JSONEncoderを継承させる
-
     def default(self, o):
         if type(o).__name__ == "datetime":     # 値がdatetime型だったら、
             return o.strftime("%Y%m%d-%H%M%S")  # 文字列に変換して返す
