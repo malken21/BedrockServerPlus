@@ -41,7 +41,7 @@ def main():
 
         else:
             util.sendWebhook({"type": "ServerStop"}, config)
-            if config["isBackup"]:
+            if config["Backup"]:
                 # バックアップ
                 backup.world(config)
 

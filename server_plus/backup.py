@@ -37,18 +37,21 @@ def world(config):
     # ワールドのパス
     path = config["WorldPath"]
     # 作成するアーカイブファイルのパス
-    zipFile_Name = now.strftime(config["WorldArchiveFile"])
+    ZipFilePath = now.strftime(config["WorldArchiveFile"])
 
     saveData.insert(0, {
-        "path": zipFile_Name,
+        "path": ZipFilePath,
         "time": now
     })
 
     saveData = removeBackup(saveData, config)
 
     # アーカイブファイル作成
-    with zipfile.ZipFile(zipFile_Name, 'w', zipfile.ZIP_DEFLATED) as zipf:
+    with zipfile.ZipFile(ZipFilePath, 'w', zipfile.ZIP_DEFLATED) as zipf:
         zipdir(path, zipf)
+
+    # ウェブフック送信
+    util.sendWebhook({"type": "CreateBackup", "path": ZipFilePath}, config)
 
     # 変数"saveData"を保存
     util.saveJSON(saveDataPath, saveData, cls=JSONEncoder_Datetime)
