@@ -1,6 +1,5 @@
 import re
-import urllib.parse
-import urllib.request
+from urllib import request, error
 from threading import Thread
 import os
 import json
@@ -57,11 +56,11 @@ def postJSON(url: str, data):
     data = data.encode("utf-8")
 
     try:
-        req = urllib.request.Request(url, data, headers)
-        with urllib.request.urlopen(req) as response:
+        req = request.Request(url, data, headers)
+        with request.urlopen(req) as response:
             response_text = response.read().decode("utf-8")
             return response_text
-    except urllib.error.URLError:
+    except error.URLError:
         return None
 
 
@@ -77,7 +76,6 @@ def is_str(v):
 
 # Webhook 送信
 def sendWebhook(data, config):
-    print(data)
     # config で Webhookの機能が 無効だったら return
     if config["Webhook"] == False:
         return

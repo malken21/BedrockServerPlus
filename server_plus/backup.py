@@ -1,6 +1,7 @@
 import os
 import zipfile
 import datetime
+import time
 
 
 # 色んな関数 インポート
@@ -76,6 +77,8 @@ def world(config):
     # アーカイブファイル作成
     with zipfile.ZipFile(ZipFilePath, "w", zipfile.ZIP_DEFLATED) as zipf:
         zipdir(path, zipf)
+
+    print("CreateFile: " + ZipFilePath)
 
     # ウェブフック送信
     util.sendWebhookAwait({"type": "CreateBackup", "path": ZipFilePath}, config)
