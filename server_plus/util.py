@@ -1,5 +1,6 @@
 import urllib.parse
 import urllib.request
+import threading
 import os
 import json
 import yaml
@@ -48,18 +49,8 @@ def toCommand(ActionTimer):
         return 'tellraw @a {"rawtext": [{"text": "%s"}]}' % escape_utf16be(ActionTimer["say"])
 
 
-# 終了処理
-def exit():
-    os._exit(1)
-
-
-# 型か文字列かどうか
-def is_str(v):
-    return type(v) is str
-
-
-# Postリクエスト 送信
-def post(url: str, data):
+# リクエストボディに JSON が書かれている Post 送信
+def postJSON(url: str, data):
     headers = {'Content-Type': 'application/json'}
     data = json.dumps(data)
     data = data.encode('utf-8')
@@ -71,3 +62,24 @@ def post(url: str, data):
             return response_text
     except urllib.error.URLError:
         return None
+
+
+# 終了処理
+def exit():
+    os._exit(1)
+
+
+# 型か文字列かどうか
+def is_str(v):
+    return type(v) is str
+
+
+# Webhook 送信
+def sendWebhook(url: str, data, config):
+
+    # config で Webhookの機能が 無効だったら return
+    if config["Webhook"] == False:
+        return
+
+    # スレッドを作成して Postリクエストを送信
+    threading.Thread(target=postJSON, args=(url, data))
