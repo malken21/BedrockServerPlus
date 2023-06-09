@@ -31,6 +31,13 @@ def zipdir(path, ziph):
             )
 
 
+# ファイルのパスまでのディレクトリがない場合作成する
+def createDir(file_path):
+    dir_path = os.path.dirname(file_path)
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+
+
 # 古いバックアップを削除
 def removeBackup(saveData: list, config):
     MaxBackupFile = config["MaxBackupFile"]
@@ -81,6 +88,9 @@ def world(config):
     saveData = removeBackup(saveData, config)
 
     saveData.insert(0, {"path": ZipFilePath, "time": now})
+
+    # バックアップファイルが作成されるディレクトリがない場合作成する
+    createDir(ZipFilePath)
 
     # アーカイブファイル作成
     with zipfile.ZipFile(ZipFilePath, "w", zipfile.ZIP_DEFLATED) as zipf:
