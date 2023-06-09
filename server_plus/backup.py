@@ -1,7 +1,6 @@
 import os
 import zipfile
 import datetime
-import time
 
 
 # 色んな関数 インポート
