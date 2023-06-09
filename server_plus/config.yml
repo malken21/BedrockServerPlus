@@ -17,9 +17,9 @@ Reboot: true
 RebootTime: "05:00"
 
 #Webhookの機能を有効にするかどうか
-Webhook: true
+Webhook: false
 #WebhookのURL
-WebhookURL: "http://localhost:5000"
+WebhookURL: "http://localhost"
 
 #指定した時間になったら設定したアクションを実行する機能を有効にするかどうか
 ActionTimer: true

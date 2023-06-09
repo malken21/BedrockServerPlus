@@ -40,6 +40,12 @@ def removeBackup(saveData: list, config):
     if MaxBackupFile == 0:
         return
 
+    # 既に存在しないバックアップのデータを "saveData"から削除
+    for i in saveData:
+        if not os.path.isfile(i["path"]):
+            saveData.remove(i)
+
+    # 古すぎるバックアップファイル削除
     for i in range(len(saveData[MaxBackupFile:])):
         path = saveData[i + MaxBackupFile]["path"]
         os.remove(path)
@@ -72,9 +78,10 @@ def world(config):
     # 作成するアーカイブファイルのパス
     ZipFilePath = now.strftime(config["WorldArchiveFile"])
 
-    saveData.insert(0, {"path": ZipFilePath, "time": now})
-
+    # 古すぎるバックアップファイルなどを削除
     saveData = removeBackup(saveData, config)
+
+    saveData.insert(0, {"path": ZipFilePath, "time": now})
 
     # アーカイブファイル作成
     with zipfile.ZipFile(ZipFilePath, "w", zipfile.ZIP_DEFLATED) as zipf:
