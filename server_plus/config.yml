@@ -11,13 +11,6 @@ WorldArchiveFile: "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
 # 0 に設定した場合は 削除しない
 MaxBackupFile: 5
 
-#サーバーのバージョンを自動更新するかどうか
-AutoUpdate: true
-#サーバーのダウンロードページのURL
-DownloadPage: "https://www.minecraft.net/en-us/download/server/bedrock"
-#自動更新で変更されないファイル
-KeepFiles: ["allowlist.json", "permissions.json", "server.properties"]
-
 #自動で再起動するかどうか
 Reboot: true
 #自動で再起動する時間
