@@ -10,6 +10,10 @@
 
 !/server_plus
 
+<<<<<<< Updated upstream
+=======
+/server_plus/__pycache__
+>>>>>>> Stashed changes
 /server_plus/save
 
 # Byte-compiled / optimized / DLL files
