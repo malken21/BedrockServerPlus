@@ -12,7 +12,9 @@ WorldArchiveFile: "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
 MaxBackupFile: 5
 
 #サーバーのバージョンを自動更新するかどうか
-AutoUpdate: false
+AutoUpdate: true
+#サーバーのダウンロードページのURL
+DownloadPage: "https://www.minecraft.net/en-us/download/server/bedrock"
 #自動更新で変更されないファイル
 KeepFiles: ["allowlist.json", "permissions.json", "server.properties"]
 
