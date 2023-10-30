@@ -11,6 +11,9 @@ WorldArchiveFile: "./worlds/World-%Y-%m-%d-%H-%M-%S.mcworld"
 # 0 に設定した場合は 削除しない
 MaxBackupFile: 5
 
+#自動でサーバーのバージョンをアップデートするかどうか
+AutoUpdate: false
+
 #自動で再起動するかどうか
 Reboot: true
 #自動で再起動する時間
