@@ -1,11 +1,14 @@
 import subprocess
 from subprocess import PIPE
+from importlib import reload
 
 # 色んな関数 インポート
 import server_plus.util as util
 
 # バックアップ関係
 import server_plus.backup as backup
+# サーバー自動更新関係
+import server_plus.update as update
 
 import server_plus.log as log
 
@@ -14,6 +17,10 @@ config = util.readYAML("server_plus/config.yml")
 
 # config に書いてある 統合版サーバー 起動コマンド を "startCMD" に代入
 startCMD = config["startCMD"]
+
+# もし自動更新の設定が true だったら
+if config["AutoUpdate"]:
+    update.tryUpdate()
 
 
 # サブプロセス (統合版サーバー) 作成
@@ -46,10 +53,16 @@ def main():
             # ログを取得した時の処理
             log.getLog(output, config)
 
+            # もし まだ起動しているMinecraftのバージョンを取得していなかったら
+            if config["AutoUpdate"] and update.version is None:
+                update.getVersionFromLog(output)
+
         elif poll == 0:
             if config["Backup"]:
                 # バックアップ
                 backup.world(config)
+                # リロード
+                reload(update)
 
             if status["isReboot"]:
                 # 再起動
@@ -68,6 +81,10 @@ def read_input():
     while True:
         user_input = input()
         if process.poll() is None:
+            if user_input == "reboot":
+                status["isReboot"] = True
+                write_text("stop\n")
+
             write_text(user_input + "\n")
 
 
