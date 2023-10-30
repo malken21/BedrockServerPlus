@@ -109,3 +109,20 @@ def getMainText(log: str):
     if match:
         return match.group(1)
     return None
+
+
+# Webページの情報を取得する (リダイレクトに対応)
+def fetch_data(url: str, headers={}):
+    try:
+        # リダイレクトを自動的に処理するOpenerを作成
+        opener = request.build_opener(
+            request.HTTPCookieProcessor())
+        request.install_opener(opener)
+
+        # GETリクエストを送信し、レスポンスを取得
+        req = request.Request(url, headers=headers)
+        # レスポンスの内容（HTMLなど）を取得
+        res = opener.open(req)
+        return res.read()
+    except (error.HTTPError, error.URLError):
+        return None
