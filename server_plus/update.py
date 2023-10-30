@@ -15,17 +15,20 @@ LogSearch = r"\[*\] Version (.*)"
 
 version = None
 
-# def isLatest(ver:str):
+# config.json 読み込み
+config = util.readYAML("server_plus/config.yml")
 
 
+
+# サーバーのログからバージョンを取得して
+# 最新版と違う場合は更新する
 def getVersionFromLog(log: str):
-    v = re.search(LogSearch, log)
-    if v is None or len(v.groups()) != 1:
+    this_ver = re.search(LogSearch, log)
+    if this_ver is None or len(this_ver.groups()) != 1:
         return
     global version
-    version = v.group(1)
-
-    print(version)
+    version = this_ver.group(1)
+    print("This version: %s" % (version))
 
 
 def tryUpdate():
