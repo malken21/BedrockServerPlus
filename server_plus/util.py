@@ -4,8 +4,6 @@ from threading import Thread
 import os
 import json
 import yaml
-import io
-from server_plus.config import DEF_CFG
 
 
 # エスケープ UTF-16BE
