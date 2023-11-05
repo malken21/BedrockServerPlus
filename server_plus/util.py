@@ -32,11 +32,9 @@ def getConfig():
     PATH = "server_plus/config.yml"
 
     if os.path.exists(PATH):
-        with open(PATH, "r", encoding="utf-8") as file:
-            return yaml.load(file, Loader=yaml.Loader)
+        return readYAML(PATH)
     else:
-        with open("server_plus/default.yml", "r", encoding="utf-8") as file:
-            return yaml.load(file, Loader=yaml.Loader)
+        return readYAML("server_plus/default.yml")
 
 
 # 読み込み YAML
