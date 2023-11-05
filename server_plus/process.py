@@ -11,7 +11,7 @@ import server_plus.backup as backup
 import server_plus.log as log
 
 # config.json 読み込み
-config = util.readYAML("server_plus/config.yml")
+config = util.getConfig()
 
 # config に書いてある 統合版サーバー 起動コマンド を "startCMD" に代入
 startCMD = config["startCMD"]
