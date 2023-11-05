@@ -4,6 +4,8 @@ from threading import Thread
 import os
 import json
 import yaml
+import io
+from server_plus.config import DEF_CFG
 
 
 # エスケープ UTF-16BE
@@ -26,6 +28,17 @@ def saveJSON(path, data, cls=None):
 
     with open(path, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=4, ensure_ascii=False, cls=cls)
+
+
+def getConfig():
+    PATH = "server_plus/config.yml"
+
+    if os.path.exists(PATH):
+        with open(PATH, "r", encoding="utf-8") as file:
+            return yaml.load(file, Loader=yaml.Loader)
+    else:
+        with open("server_plus/default.yml", "r", encoding="utf-8") as file:
+            return yaml.load(file, Loader=yaml.Loader)
 
 
 # 読み込み YAML
