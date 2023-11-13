@@ -93,7 +93,7 @@ def world(config):
     createDir(ZipFilePath)
 
     # アーカイブファイル作成
-    with zipfile.ZipFile(ZipFilePath, "w", zipfile.ZIP_DEFLATED) as zipf:
+    with zipfile.ZipFile(ZipFilePath, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zipf:
         zipdir(path, zipf)
 
     print("CreateFile: " + ZipFilePath)
