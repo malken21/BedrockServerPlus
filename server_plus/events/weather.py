@@ -4,7 +4,7 @@ from server_plus.util import sendWebhook
 
 class WeatherUpdate(event):
     def run(self, text: str):
-        # プレイヤー切断ログかどうか
+        # 天候を取得したログかどうか
         if text.startswith("Weather state is: "):
             # ウェブフック
             sendWebhook(

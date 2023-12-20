@@ -14,11 +14,7 @@ def getEvents(config) -> list[event]:
     ]
 
 
-def run(config, text: str):
-
-    # すべてのイベントを取得
-    events = getEvents(config)
-
+def run(events: list[event], text: str):
     LogOutput = True
     for event in events:
         event.setLogOutput(LogOutput)
