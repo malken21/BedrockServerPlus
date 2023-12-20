@@ -11,6 +11,8 @@ class WeatherUpdate(event_webhook):
         self.server = server
         self.__isSendCommand = False
         self.__old_weather = None
+        self.isRunning = False
+
         # 統合版サーバー メインの処理 起動
         Thread(target=self.loop).start()
 

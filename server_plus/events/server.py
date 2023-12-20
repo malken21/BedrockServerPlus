@@ -1,17 +1,18 @@
 from server_plus.events.default import event_webhook
+from server_plus.events.weather import WeatherUpdate
 
 
 class event_server(event_webhook):
-    def __init__(self, config, server):
+    def __init__(self, config, weather: WeatherUpdate):
         super().__init__(config)
-        self.server = server
+        self.weather = weather
 
 
 class ServerStart(event_server):
     def run(self, text: str):
         # サーバー 起動ログだったら
         if text == "Server started.":
-            self.server.setRunning(True)
+            self.weather.isRunning = True
             self.sendWebhook({"type": "ServerStart"})
 
 
@@ -19,5 +20,5 @@ class ServerStop(event_server):
     def run(self, text: str):
         # サーバー 停止ログだったら
         if text == "Stopping server...":
-            self.server.setRunning(False)
+            self.weather.isRunning = False
             self.sendWebhook({"type": "ServerStop"})
