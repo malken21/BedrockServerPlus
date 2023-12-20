@@ -1,4 +1,3 @@
-import re
 from urllib import request, error
 from threading import Thread
 import os
@@ -102,22 +101,6 @@ def sendWebhookAwait(data, config):
 
     # Postリクエストを送信
     postJSON(config["WebhookURL"], data)
-
-
-# ログの本文からプレイヤー名の部分を取得する
-def getPlayerName(text: str):
-    start = text.find(":") + 2
-    end = text.find(",", start)
-    username = text[start:end]
-    return username
-
-
-# ログから 本文を取得する 所得出来ない場合は None を返す
-def getMainText(log: str):
-    match = re.search(r"\[.*]\s(.*)", log)
-    if match:
-        return match.group(1)
-    return None
 
 
 # Webページの情報を取得する (リダイレクトに対応)
