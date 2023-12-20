@@ -1,9 +1,8 @@
 from server_plus.events.default import event_webhook
-from server_plus.events.weather import WeatherUpdate
 
 
 class event_server(event_webhook):
-    def __init__(self, config, weather: WeatherUpdate):
+    def __init__(self, config, weather):
         super().__init__(config)
         self.weather = weather
 
