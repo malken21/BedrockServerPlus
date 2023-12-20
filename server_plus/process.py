@@ -1,5 +1,4 @@
-import subprocess
-from subprocess import PIPE
+from subprocess import PIPE, Popen
 
 # 色んな関数 インポート
 import server_plus.util as util
@@ -8,18 +7,13 @@ import server_plus.util as util
 import server_plus.backup as backup
 
 import server_plus.log as log
-
-# config.json 読み込み
-config = util.getConfig()
-
-# config に書いてある 統合版サーバー 起動コマンド を "startCMD" に代入
-startCMD = config["startCMD"]
+import server_plus.eventManager as eventManager
 
 
 # サブプロセス (統合版サーバー) 作成
-def ServerStart():
-    return subprocess.Popen(
-        startCMD,
+def ServerStart(config):
+    return Popen(
+        config["startCMD"],
         stdin=PIPE,
         stdout=PIPE,
         shell=True,
@@ -28,55 +22,54 @@ def ServerStart():
     )
 
 
-# 統合版サーバー プロセス起動
-process = ServerStart()
-# 現在の状態を管理
-status = {"isReboot": False}
+class server:
 
+    def __init__(self, bedrock: Popen, config):
+        self.bedrock = bedrock
+        self.config = config
+        self.events = eventManager.getEvents(self.config, self)
+        # 現在の状態を管理
+        self.status = {"isReboot": False}
 
-# メインの処理
-def main():
-    global process, status
-    while True:
-        poll = process.poll()
-        if poll is None:
-            # 出力された文字読み込み
-            output = process.stdout.readline().strip()
+    # メインの処理
+    def main(self):
+        while True:
+            poll = self.bedrock.poll()
+            if poll is None:
+                # 出力された文字読み込み
+                output: str = self.bedrock.stdout.readline()
+                output.strip()
 
-            # ログを取得した時の処理
-            log.getLog(output, config)
+                # ログを取得した時の処理
+                log.getLog(output, self.events)
 
-        elif poll == 0:
-            if config["Backup"]:
-                # バックアップ
-                backup.world(config)
+            elif poll == 0:
+                if self.config["Backup"]:
+                    # バックアップ
+                    backup.world(self.config)
 
-            if status["isReboot"]:
-                # 再起動
-                status["isReboot"] = False
-                # 統合版サーバー プロセス起動
-                process = ServerStart()
+                if self.status["isReboot"]:
+                    # 再起動
+                    self.status["isReboot"] = False
+                    # 統合版サーバー プロセス起動
+                    self.bedrock = ServerStart()
+                else:
+                    util.exit()
             else:
                 util.exit()
-        else:
-            util.exit()
 
+    # コンソールから読み取り
+    def read_input(self):
+        while True:
+            user_input = input()
+            if self.bedrock.poll() is None:
+                if user_input == "reboot":
+                    self.status["isReboot"] = True
+                    self.write_text("stop")
 
-# コンソールから読み取り
-def read_input():
-    global process
-    while True:
-        user_input = input()
-        if process.poll() is None:
-            if user_input == "reboot":
-                status["isReboot"] = True
-                write_text("stop\n")
+                self.write_text(user_input)
 
-            write_text(user_input + "\n")
-
-
-# 文字 (引数 text) を書き込み
-def write_text(text: str):
-    global process
-    process.stdin.write(text)
-    process.stdin.flush()
+    # 文字 (引数 text) を書き込み
+    def write_text(self, text: str):
+        self.bedrock.stdin.write(text + "\n")
+        self.bedrock.stdin.flush()

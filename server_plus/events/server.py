@@ -1,16 +1,15 @@
-from server_plus.eventManager import event
-from server_plus.util import sendWebhook
+from server_plus.events.default import event_webhook
 
 
-class ServerStart(event):
+class ServerStart(event_webhook):
     def run(self, text: str):
         # サーバー 起動ログだったら
         if text == "Server started.":
-            sendWebhook({"type": "ServerStart"}, self.config)
+            self.sendWebhook({"type": "ServerStart"})
 
 
-class ServerStop(event):
+class ServerStop(event_webhook):
     def run(self, text: str):
         # サーバー 停止ログだったら
         if text == "Stopping server...":
-            sendWebhook({"type": "ServerStop"}, self.config)
+            self.sendWebhook({"type": "ServerStop"})

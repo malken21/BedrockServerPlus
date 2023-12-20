@@ -2,23 +2,17 @@ import re
 import server_plus.eventManager as eventManager
 
 
-class Log:
-    def __init__(self, config):
-        self.config = config
+# 統合版サーバーのログを取得した時に実行される
+def getLog(log: str, events: list[eventManager.event]):
 
-    # 統合版サーバーのログを取得した時に実行される
-    def getLog(self, log: str):
+    # ログから本文を取得
+    text = __getMainText(log)
 
-        # ログから本文を取得
-        text = __getMainText(log)
-
-        # もし本文が取得できたら
-        if text is not None:
-            if eventManager.run(
-                eventManager.getEvents(self.config), text
-            ):
-                # コンソール出力
-                print(log)
+    # もし本文が取得できたら
+    if text is not None:
+        if eventManager.run(events, text):
+            # コンソール出力
+            print(log)
 
 
 # ログから 本文を取得する 所得出来ない場合は None を返す

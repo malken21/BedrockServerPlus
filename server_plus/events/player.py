@@ -1,26 +1,25 @@
-from server_plus.eventManager import event
-from server_plus.util import sendWebhook
+from server_plus.events.default import event_webhook
 
 
-class PlayerConnect(event):
+class PlayerConnect(event_webhook):
     def run(self, text: str):
         # プレイヤー接続ログかどうか
         if text.startswith("Player connected: "):
             # ウェブフック
-            sendWebhook(
+            self.sendWebhook(
                 {"type": "PlayerConnect",
-                    "username": __getPlayerName(text)}, self.config
+                    "username": __getPlayerName(text)}
             )
 
 
-class PlayerDisconnect(event):
+class PlayerDisconnect(event_webhook):
     def run(self, text: str):
         # プレイヤー切断ログかどうか
         if text.startswith("Player disconnected: "):
             # ウェブフック
-            sendWebhook(
+            self.sendWebhook(
                 {"type": "PlayerDisconnect",
-                    "username": __getPlayerName(text)}, self.config
+                    "username": __getPlayerName(text)}
             )
 
 

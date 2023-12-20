@@ -1,3 +1,6 @@
+import server_plus.util as util
+
+
 class event:
     def __init__(self, config):
         self.config = config
@@ -10,3 +13,10 @@ class event:
 
     def run(self, text: str):
         pass
+
+
+class event_webhook(event):
+    def sendWebhook(self, data):
+        util.sendWebhook(
+            data, self.config
+        )

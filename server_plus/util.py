@@ -30,14 +30,16 @@ def saveJSON(path, data, cls=None):
 def getConfig():
     PATH = "server_plus/config.yml"
 
+    config = readYAML("server_plus/default.yml")
+
     if os.path.exists(PATH):
-        return readYAML(PATH)
-    else:
-        return readYAML("server_plus/default.yml")
+        config.update(readYAML(PATH))
+
+    return config
 
 
 # 読み込み YAML
-def readYAML(path):
+def readYAML(path) -> dict:
     with open(path, "r", encoding="utf-8") as file:
         return yaml.load(file, Loader=yaml.Loader)
 
