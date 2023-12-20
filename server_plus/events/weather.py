@@ -13,10 +13,10 @@ class WeatherUpdate(event_webhook):
         self.server = server
         self.__isSendCommand = False
         # 統合版サーバー メインの処理 起動
-        Thread(target=server.bedrock).start()
+        Thread(target=self.loop).start()
 
     async def loop(self):
-        self.SendCommand
+        self.SendCommand()
         await asyncio.sleep(10)
 
     def run(self, text: str):
