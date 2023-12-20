@@ -11,6 +11,6 @@ class EventList(events):
 
         self.PlayerDisconnect = player.PlayerDisconnect(config)
         self.PlayerConnect = player.PlayerConnect(config)
-        self.ServerStart = server.ServerStart(config)
-        self.ServerStop = server.ServerStop(config)
+        self.ServerStart = server.ServerStart(config, process)
+        self.ServerStop = server.ServerStop(config, process)
         self.WeatherUpdate = weather.WeatherUpdate(config, process)

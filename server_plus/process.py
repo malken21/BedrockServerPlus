@@ -29,7 +29,7 @@ class server:
         self.config = config
         self.events = EventList(config, self).get()
         # 現在の状態を管理
-        self.status = {"isReboot": False}
+        self.status = {"isReboot": False, "isRunning": False}
 
     # メインの処理
     def main(self):
