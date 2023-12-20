@@ -47,7 +47,7 @@ def readYAML(path) -> dict:
 # config の ActionTimerList に書かれた実行内容をコマンドに変換
 def toCommand(ActionTimer):
     if "command" in ActionTimer:
-        command = ActionTimer["command"]
+        command: str = ActionTimer["command"]
         if command.startswith("/"):
             return command[1:]
         else:
