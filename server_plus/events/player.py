@@ -8,7 +8,7 @@ class PlayerConnect(event_webhook):
             # ウェブフック
             self.sendWebhook(
                 {"type": "PlayerConnect",
-                    "username": __getPlayerName(text)}
+                    "username": _getPlayerName(text)}
             )
 
 
@@ -19,12 +19,12 @@ class PlayerDisconnect(event_webhook):
             # ウェブフック
             self.sendWebhook(
                 {"type": "PlayerDisconnect",
-                    "username": __getPlayerName(text)}
+                    "username": _getPlayerName(text)}
             )
 
 
 # ログの本文からプレイヤー名の部分を取得する
-def __getPlayerName(text: str):
+def _getPlayerName(text: str):
     start = text.find(":") + 2
     end = text.find(",", start)
     username = text[start:end]

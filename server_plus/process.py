@@ -7,7 +7,7 @@ import server_plus.util as util
 import server_plus.backup as backup
 
 import server_plus.log as log
-import server_plus.eventManager as eventManager
+from server_plus.eventRegister import EventList
 
 
 # サブプロセス (統合版サーバー) 作成
@@ -27,7 +27,7 @@ class server:
     def __init__(self, bedrock: Popen, config):
         self.bedrock = bedrock
         self.config = config
-        self.events = eventManager.getEvents(self.config, self)
+        self.events = EventList(config, self).get()
         # 現在の状態を管理
         self.status = {"isReboot": False}
 
@@ -52,7 +52,7 @@ class server:
                     # 再起動
                     self.status["isReboot"] = False
                     # 統合版サーバー プロセス起動
-                    self.bedrock = ServerStart()
+                    self.bedrock = ServerStart(self.config)
                 else:
                     util.exit()
             else:

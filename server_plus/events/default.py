@@ -20,3 +20,4 @@ class event_webhook(event):
         util.sendWebhook(
             data, self.config
         )
+        print(f"sendWebhook: {data}")

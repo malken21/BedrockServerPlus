@@ -12,7 +12,7 @@ def getLog(log: str, events: list[eventManager.event]):
     if text is not None:
         if eventManager.run(events, text):
             # コンソール出力
-            print(log)
+            print(log, end="")
 
 
 # ログから 本文を取得する 所得出来ない場合は None を返す
