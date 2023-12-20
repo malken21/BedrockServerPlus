@@ -15,7 +15,7 @@ class WeatherUpdate(event_webhook):
         Thread(target=self.loop).start()
 
     def loop(self):
-        if self.server.status["isRunning"]:
+        if self.server.isRunning():
             self.SendCommand()
         time.sleep(10)
         self.loop()

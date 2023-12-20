@@ -11,7 +11,7 @@ class ServerStart(event_server):
     def run(self, text: str):
         # サーバー 起動ログだったら
         if text == "Server started.":
-            self.server.status["isRunning"] = True
+            self.server.setRunning(True)
             self.sendWebhook({"type": "ServerStart"})
 
 
@@ -19,5 +19,5 @@ class ServerStop(event_server):
     def run(self, text: str):
         # サーバー 停止ログだったら
         if text == "Stopping server...":
-            self.server.status["isRunning"] = False
+            self.server.setRunning(False)
             self.sendWebhook({"type": "ServerStop"})

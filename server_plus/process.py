@@ -73,3 +73,9 @@ class server:
     def write_text(self, text: str):
         self.bedrock.stdin.write(text + "\n")
         self.bedrock.stdin.flush()
+
+    def setRunning(self, value: bool):
+        self.status["isRunning"] = value
+
+    def isRunning(self) -> bool:
+        return self.status["isRunning"]
