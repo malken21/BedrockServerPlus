@@ -9,8 +9,8 @@ import server_plus.events.weather as weather
 class EventList(events):
     def __init__(self, config, process):
 
+        self.WeatherUpdate = weather.WeatherUpdate(config, process)
         self.PlayerDisconnect = player.PlayerDisconnect(config)
         self.PlayerConnect = player.PlayerConnect(config)
-        self.ServerStart = server.ServerStart(config)
-        self.ServerStop = server.ServerStop(config)
-        self.WeatherUpdate = weather.WeatherUpdate(config, process)
+        self.ServerStart = server.ServerStart(config, self.WeatherUpdate)
+        self.ServerStop = server.ServerStop(config, self.WeatherUpdate)
