@@ -29,7 +29,7 @@ class server:
         self.config = config
         self.events = EventList(config, self).get()
         # 現在の状態を管理
-        self.status = {"isReboot": False, "isRunning": False}
+        self.status = {"isReboot": False}
 
     # メインの処理
     def main(self):
@@ -73,9 +73,3 @@ class server:
     def write_text(self, text: str):
         self.bedrock.stdin.write(text + "\n")
         self.bedrock.stdin.flush()
-
-    def setRunning(self, value: bool):
-        self.status["isRunning"] = value
-
-    def isRunning(self) -> bool:
-        return self.status["isRunning"]
