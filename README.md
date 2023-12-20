@@ -48,7 +48,7 @@ config.yml で指定した URL に Post でリクエストを送信する
 {"type": "RemoveBackup", "path": "バックアップファイルの絶対パス"}
 ```
 
-### ワールドの天気変更時
+### ワールドの天気更新時
 
 ```post
 {"type": "WeatherUpdate", "name": "天気の名前"}
