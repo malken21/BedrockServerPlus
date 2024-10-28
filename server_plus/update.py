@@ -83,7 +83,7 @@ def upgrade(zip_url: str):
 # アップデート確認
 def check():
     controlData = {}
-    # ./server_plus/save/backup.json (保存データ) が存在するかどうか
+    # ./server_plus/save/update.json (保存データ) が存在するかどうか
     if os.path.isfile(CONTROL_DATA_PATH):
         # 存在したら 書いているJSONを controlData に代入
         controlData = util.readJSON(CONTROL_DATA_PATH)
@@ -96,9 +96,12 @@ def check():
     else:  # それ以外だったら
         if "bin-linux" in bedrock_zip_dict:
             zip_url = bedrock_zip_dict["bin-linux"]
-    if "localZipURL" in controlData.items() and zip_url is controlData["localZipURL"]:
+    if zip_url == controlData.get("localZipURL"):
         return
+    print(os.path.isfile(CONTROL_DATA_PATH))
+    print(controlData)
 
+    print(f"download... : {zip_url}")
     # 統合版サーバー アップグレード
     upgrade(zip_url)
     controlData["localZipURL"] = zip_url
