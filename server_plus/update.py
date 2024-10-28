@@ -66,6 +66,8 @@ def getZipDict():
     # Minecraft 統合版サーバー 公式ダウンロードサイト
     URL = "https://minecraft.net/en-us/download/server/bedrock"
     response = util.fetch_data(URL, HEADERS)
+    if response is None:
+        return {}
     # HTMLをパース
     parser = getZipParser()
     parser.feed(response.decode('utf-8'))
