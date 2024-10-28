@@ -101,8 +101,6 @@ def check():
             zip_url = bedrock_zip_dict["bin-linux"]
     if zip_url == controlData.get("localZipURL"):
         return
-    print(os.path.isfile(CONTROL_DATA_PATH))
-    print(controlData)
 
     print(f"download... : {zip_url}")
     # 統合版サーバー アップグレード
