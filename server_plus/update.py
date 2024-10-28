@@ -1,9 +1,13 @@
-from util import fetch_data, download
 import zipfile
 import os
 from html.parser import HTMLParser
 import shutil
 
+import server_plus.util as util
+
+
+# 管理データのパス "save/update.json" で 現在のバージョンを管理している
+CONTROL_DATA_PATH = "./server_plus/save/update.json"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0"
@@ -61,7 +65,7 @@ def getZipDict():
 
     # Minecraft 統合版サーバー 公式ダウンロードサイト
     URL = "https://minecraft.net/en-us/download/server/bedrock"
-    response = fetch_data(URL, HEADERS)
+    response = util.fetch_data(URL, HEADERS)
     # HTMLをパース
     parser = getZipParser()
     parser.feed(response.decode('utf-8'))
@@ -71,16 +75,32 @@ def getZipDict():
 def upgrade(zip_url: str):
     dir_path = os.path.dirname(ZIP_FILE_PATH)
     os.makedirs(dir_path, exist_ok=True)  # zipファイルが一時的に保存されるディレクトリ作成
-    download(zip_url, ZIP_FILE_PATH, HEADERS)  # zipファイルをダウンロード
+    util.download(zip_url, ZIP_FILE_PATH, HEADERS)  # zipファイルをダウンロード
     unzip_exclude(ZIP_FILE_PATH, EXTRACT_DIR, EXCLUDE_FILES)  # zipファイルを展開
-    shutil.rmtree(dir_path) # zipファイルが一時的に保存されていたディレクトリ削除
+    shutil.rmtree(dir_path)  # zipファイルが一時的に保存されていたディレクトリ削除
 
 
-bedrock_zip_dict = getZipDict()
-print(bedrock_zip_dict)
-if os.name == "nt":  # Windows OS だったら
-    if "bin-win" in bedrock_zip_dict:
-        upgrade(bedrock_zip_dict["bin-win"])
-else:  # それ以外だったら
-    if "bin-linux" in bedrock_zip_dict:
-        upgrade(bedrock_zip_dict["bin-linux"])
+# アップデート確認
+def check():
+    controlData = {}
+    # ./server_plus/save/backup.json (保存データ) が存在するかどうか
+    if os.path.isfile(CONTROL_DATA_PATH):
+        # 存在したら 書いているJSONを controlData に代入
+        controlData = util.readJSON(CONTROL_DATA_PATH)
+
+    bedrock_zip_dict = getZipDict()
+    zip_url = None
+    if os.name == "nt":  # Windows OS だったら
+        if "bin-win" in bedrock_zip_dict:
+            zip_url = bedrock_zip_dict["bin-win"]
+    else:  # それ以外だったら
+        if "bin-linux" in bedrock_zip_dict:
+            zip_url = bedrock_zip_dict["bin-linux"]
+    if "localZipURL" in controlData.items() and zip_url is controlData["localZipURL"]:
+        return
+
+    # 統合版サーバー アップグレード
+    upgrade(zip_url)
+    controlData["localZipURL"] = zip_url
+    # 変数"controlData"を保存
+    util.saveJSON(CONTROL_DATA_PATH, controlData)
