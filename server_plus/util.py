@@ -120,3 +120,13 @@ def fetch_data(url: str, headers={}):
         return res.read()
     except (error.HTTPError, error.URLError):
         return None
+
+
+# ダウンロード
+def download(url: str, save_path: str, headers={}):
+    # リクエストを作成
+    req = request.Request(url, headers=headers)
+    # ファイルをダウンロード
+    with request.urlopen(req) as response, open(save_path, 'wb') as out_file:
+        data = response.read()
+        out_file.write(data)
