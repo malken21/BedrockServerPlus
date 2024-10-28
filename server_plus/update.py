@@ -67,6 +67,7 @@ def getZipDict():
     URL = "https://minecraft.net/en-us/download/server/bedrock"
     response = util.fetch_data(URL, HEADERS)
     if response is None:
+        print("Could not get latest version...")
         return {}
     # HTMLをパース
     parser = getZipParser()
