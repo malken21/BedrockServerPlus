@@ -9,10 +9,13 @@ import server_plus.backup as backup
 import server_plus.log as log
 from server_plus.eventRegister import EventList
 
+from server_plus.update import check
+
 
 # サブプロセス (統合版サーバー) 作成
 def ServerStart(config):
-    return Popen(
+    check()  # アップデート確認
+    return Popen(  # サーバー起動
         config["startCMD"],
         stdin=PIPE,
         stdout=PIPE,
