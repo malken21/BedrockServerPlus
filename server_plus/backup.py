@@ -9,8 +9,8 @@ import server_plus.util as util
 
 from json import JSONEncoder
 
-# 保存データのパス "save/backup.json" で 古すぎるファイルの削除を管理している
-saveDataPath = "./server_plus/save/backup.json"
+# 管理データのパス "save/backup.json" で 古すぎるファイルの削除を管理している
+CONTROL_DATA_PATH = "./server_plus/save/backup.json"
 
 
 class JSONEncoder_Datetime(JSONEncoder):  # JSONEncoderを継承させる
@@ -39,21 +39,21 @@ def createDir(file_path):
 
 
 # 古いバックアップを削除
-def removeBackup(saveData: list, config):
+def removeBackup(controlData: list, config):
     MaxBackupFile = config["MaxBackupFile"]
 
     # もし "MaxBackupFile" が 0 に設定されていた場合は return
     if MaxBackupFile == 0:
         return
 
-    # 既に存在しないバックアップのデータを "saveData"から削除
-    for i in saveData:
+    # 既に存在しないバックアップのデータを "controlData"から削除
+    for i in controlData:
         if not os.path.isfile(i["path"]):
-            saveData.remove(i)
+            controlData.remove(i)
 
     # 古すぎるバックアップファイル削除
-    for i in range(len(saveData[MaxBackupFile:])):
-        path = saveData[i + MaxBackupFile]["path"]
+    for i in range(len(controlData[MaxBackupFile:])):
+        path = controlData[i + MaxBackupFile]["path"]
         os.remove(path)
         print("RemoveFile: " + path)
 
@@ -63,18 +63,18 @@ def removeBackup(saveData: list, config):
         )
 
     # 削除されたバックアップファイルについてのデータを消す
-    del saveData[MaxBackupFile:]
+    del controlData[MaxBackupFile:]
 
-    return saveData
+    return controlData
 
 
 # ファイルバックアップ (zip)
 def world(config):
-    saveData = []
-    # ./server_plus/save/backup.json (保存データ) が存在するかどうか
-    if os.path.isfile(saveDataPath):
-        # 存在したら 書いているJSONを saveData に代入
-        saveData = util.readJSON(saveDataPath)
+    controlData = []
+    # ./server_plus/save/backup.json (管理データ) が存在するかどうか
+    if os.path.isfile(CONTROL_DATA_PATH):
+        # 存在したら 書いているJSONを controlData に代入
+        controlData = util.readJSON(CONTROL_DATA_PATH)
 
     # 現在の時間
     now = datetime.datetime.now()
@@ -85,9 +85,9 @@ def world(config):
     ZipFilePath = now.strftime(config["WorldArchiveFile"])
 
     # 古すぎるバックアップファイルなどを削除
-    saveData = removeBackup(saveData, config)
+    controlData = removeBackup(controlData, config)
 
-    saveData.insert(0, {"path": ZipFilePath, "time": now})
+    controlData.insert(0, {"path": ZipFilePath, "time": now})
 
     # バックアップファイルが作成されるディレクトリがない場合作成する
     createDir(ZipFilePath)
@@ -103,5 +103,5 @@ def world(config):
         {"type": "CreateBackup", "path": os.path.abspath(ZipFilePath)}, config
     )
 
-    # 変数"saveData"を保存
-    util.saveJSON(saveDataPath, saveData, cls=JSONEncoder_Datetime)
+    # 変数"controlData"を保存
+    util.saveJSON(CONTROL_DATA_PATH, controlData, cls=JSONEncoder_Datetime)
